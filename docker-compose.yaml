@@ -1,0 +1,25 @@
+services:
+  python-api:
+    build:
+      context: .
+      dockerfile: python-api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONUNBUFFERED=1
+      # EasyOCRはモデルロードでメモリを食うため、必要に応じて制限を緩和
+    deploy:
+      resources:
+        limits:
+          memory: 2G  # OCRを安定させるため最低1.5~2GBを推奨
+
+  go-api:
+    build:
+      context: .
+      dockerfile: go-api/Dockerfile
+    network_mode: "service:python-api"
+    depends_on:
+      - python-api
+    environment:
+      # GoからPythonへは localhost でアクセス可能
+      - PYTHON_RPC_ADDR=localhost:50051

@@ -1,0 +1,22 @@
+# values.yaml
+app:
+  name: "ocr-service"
+  go:
+    image: "asia-northeast1-docker.pkg.dev/acquired-shape-470706-k0/ocr-images/go-api:latest"
+    port: 8080
+  python:
+    image: "asia-northeast1-docker.pkg.dev/acquired-shape-470706-k0/ocr-images/python-api:latest"
+    port: 50051
+    resources:
+      requests:
+        cpu: "1000m"
+        memory: "1Gi"
+      limits:
+        cpu: "1000m"
+        memory: "2Gi"
+  # HPAは全体に対してかける
+hpa:
+  enabled: false #無効化
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPU: 40  # OCRはCPUを食うため、少し高めに設定してバタつきを抑える

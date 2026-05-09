@@ -1,0 +1,23 @@
+# GCP Auth
+*.json
+!k6/test_images/mapping.json  # mapping.jsonだけは例外的に許可する場合
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large test data (必要に応じて)
+# k6/test_images/  # 大量にある場合はコメントアウトを外して除外

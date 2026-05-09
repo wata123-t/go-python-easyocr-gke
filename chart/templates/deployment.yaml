@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+spec:
+  replicas: {{ .Values.hpa.minReplicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      containers:
+      - name: go-api
+        image: {{ .Values.app.go.image | quote }} # ここが重要！
+        ports:
+        - containerPort: {{ .Values.app.go.port }}
+        env:
+        - name: PYTHON_RPC_ADDR
+          value: "localhost:50051"
+
+      - name: python-api
+        image: {{ .Values.app.python.image | quote }} # ここが重要！
+        ports:
+        - containerPort: {{ .Values.app.python.port }}
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1Gi"

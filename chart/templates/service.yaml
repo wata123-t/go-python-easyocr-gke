@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr-service-svc # 名前を統合
+spec:
+  type: LoadBalancer # k6からアクセスするためにLoadBalancer
+  selector:
+    app: ocr-service # Deployment側のラベルと一致させる
+  ports:
+    - name: http-go
+      port: 8080
+      targetPort: 8080

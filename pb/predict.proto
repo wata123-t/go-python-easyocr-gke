@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// どのパッケージ名で生成されるか（Go用）
+option go_package = "./pb";
+
+package predict;
+
+// 推論サービスの定義
+service Predictor {
+  // Predict関数：画像データを送ると、結果のテキストが返ってくる
+  rpc Predict (ImageRequest) returns (PredictResponse);
+}
+
+// リクエストメッセージ
+message ImageRequest {
+  bytes image_data = 1; // ここにGoで受け取ったバイナリをそのまま詰め込みます
+}
+
+// レスポンスメッセージ
+message PredictResponse {
+  string result = 1; // 推論された文字列（文字）
+}
