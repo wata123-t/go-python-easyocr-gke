@@ -23,5 +23,5 @@ variable "region" {
 variable "dataset_id" {
   description = "BigQuery Dataset ID"
   type        = string
-  default     = "aes_verification_dataset"
+  default     = "log_dataset"
 }
