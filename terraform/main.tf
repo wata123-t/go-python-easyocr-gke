@@ -18,7 +18,7 @@ resource "google_bigquery_dataset" "log_dataset" {
 
 resource "google_logging_project_sink" "my_logging_sink" {
   name        = "my-log-sink"
-  destination = "://googleapis.com{var.project_id}/datasets/${google_bigquery_dataset.log_dataset.dataset_id}"
+  destination = "bigquery.googleapis.com/projects/${var.project_id}/datasets/${var.dataset_id}"
   filter      = "jsonPayload.request_id:*"
 }
 
@@ -92,10 +92,10 @@ resource "google_container_node_pool" "primary_nodes_hpa" {
 
   node_config {
     spot         = true
-    machine_type = "e2-standard-2"
+    machine_type = "e2-standard-2" # 2CPU/8GBメモリ
     
     oauth_scopes = [
-      "https://googleapis.com"
+      "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
 }
